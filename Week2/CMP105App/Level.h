@@ -27,5 +27,14 @@ private:
 	// Add your object here
 	sf::Text text;
 	sf::Font font;
-	
+
+	bool pressed = false;
+	sf::Vector2f start;
+	sf::Vector2f finish;
+
+	sf::CircleShape circle;
+
+	sf::RectangleShape line;
+
+	sf::Vertex notThickLine[2];
 };
