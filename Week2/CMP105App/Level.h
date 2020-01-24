@@ -29,8 +29,11 @@ private:
 	sf::Font font;
 
 	bool pressed = false;
-	sf::Vector2f start;
-	sf::Vector2f finish;
+	bool held = false;
+	
+	sf::Vector2i start = { 0,0 };
+	sf::Vector2i finish = { 0,0 };
+	float rotationGrad = 0;
 
 	sf::CircleShape circle;
 

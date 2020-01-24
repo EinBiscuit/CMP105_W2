@@ -53,15 +53,16 @@ void Level::handleInput()
 	{
 		if(!pressed)
 		{
-		 start = sf::Vector2f(input->getMouseX(), input->getMouseY());
+		 start = sf::Vector2i(input->getMouseX(), input->getMouseY());
 		 pressed = true;
 		}
+		finish = sf::Vector2i(input->getMouseX(), input->getMouseY());
 	}
 	else
 	{
 		if(pressed)
 		{
-			finish = sf::Vector2f(input->getMouseX(), input->getMouseY());
+			finish = sf::Vector2i(input->getMouseX(), input->getMouseY());
 			pressed = false;
 		}
 	}
@@ -77,23 +78,31 @@ void Level::handleInput()
 // Update game objects
 void Level::update()
 {
+	
+
 	sf::Vector2f magn(finish.x - start.x,finish.y-start.y);
 
-	double magnitude = sqrt(magn.x * magn.x + magn.y * magn.y);
+	float magnitude = sqrt(magn.x * magn.x + magn.y * magn.y);
 
-	text.setString
-	(
-		"Mouse:" + std::to_string(input->getMouseX()) +","+ std::to_string(input->getMouseY()) + " Distance: " + std::to_string(magnitude)
-	);
+	
 
 	//draw a line on drag
 
 	line.setPosition(start.x,start.y);
 	line.setSize(sf::Vector2f(magnitude, 3));
-	//line.rotate(acos(magn.x / magnitude)); MATH.h uses radians == hot mess
+	rotationGrad = acos(magn.x / magnitude) * 180 / 3.14;
+	if (start.y < finish.y) line.setRotation(rotationGrad);
+	else line.setRotation(-rotationGrad);
+	
+	
+	/*notThickLine[0] = sf::Vertex(start);
+	notThickLine[1] = sf::Vertex(finish);*/
 
-	notThickLine[0] = sf::Vertex(start);
-	notThickLine[1] = sf::Vertex(finish);
+
+	text.setString
+	(
+		"Mouse:" + std::to_string(input->getMouseX()) + "," + std::to_string(input->getMouseY()) + " Distance: " + std::to_string(magnitude) + "Angle:" + std::to_string(rotationGrad)
+	);
 }
 
 // Render level
